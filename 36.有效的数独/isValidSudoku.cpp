@@ -54,6 +54,6 @@ public:
 	
 	bool isValidBox(vector<vector<char>>& board)
 	{
-		map<char, int>rankcount;
+		map<char, int>boxcount;
 	}
 };
