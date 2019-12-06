@@ -1,0 +1,19 @@
+class Solution {
+public:
+    string intToRoman(int num) 
+    {
+        //千
+        string m[4]={"","M","MM","MMM"};   
+
+        //百     
+        string c[10]={"","C","CC","CCC","CD","D","DC","DCC","DCCC","CM"};       
+        
+        //十
+        string x[10]={"","X","XX","XXX","XL","L","LX","LXX","LXXX","XC"};        
+        
+        //个
+        string i[10]={"","I","II","III","IV","V","VI","VII","VIII","IX"};    
+            
+        return m[num/1000]+c[num%1000/100]+x[num%100/10]+i[num%10];
+    }
+};
