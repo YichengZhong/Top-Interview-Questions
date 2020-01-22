@@ -1,5 +1,5 @@
 #include <event.h>
-
+#include <signal.h>
 #include <iostream>
 
 struct event ev;
@@ -12,6 +12,29 @@ void time_cb(int fd, short event, void *argc)
     cout << "timer wakeup" << endl;
     event_add(&ev, &tv);
 }
+
+
+void sigintEventCB1(int fd, short event, void *argc)
+{
+    printf("CB1\n");
+}
+
+void sigintEventCB2(int fd, short event, void *argc)
+{
+    printf("CB2\n");
+}
+
+void sigintEventCB3(int fd, short event, void *argc)
+{
+    printf("CB3\n");
+}
+
+void time_cb(int fd, short event, void *argc)
+{
+    cout << "timer wakeup" << endl;
+    event_add(&ev, &tv);
+}
+
 
 int main()
 {
