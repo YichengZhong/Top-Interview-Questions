@@ -1,4 +1,8 @@
 ﻿  Practice.cpp
-f:\c++代码\技术教练练习1\技术教练练习1\practice.cpp(12): warning C4018: “<”: 有符号/无符号不匹配
-f:\c++代码\技术教练练习1\技术教练练习1\practice.cpp(19): warning C4018: “<”: 有符号/无符号不匹配
+f:\c++代码\技术教练练习1\技术教练练习1\practice.cpp(13): warning C4018: “<”: 有符号/无符号不匹配
+f:\c++代码\技术教练练习1\技术教练练习1\practice.cpp(20): warning C4018: “<”: 有符号/无符号不匹配
+f:\c++代码\技术教练练习1\技术教练练习1\practice.cpp(102): warning C4101: “myCalculate”: 未引用的局部变量
+f:\c++代码\技术教练练习1\技术教练练习1\practice.cpp(162): warning C4018: “<”: 有符号/无符号不匹配
+f:\c++代码\技术教练练习1\技术教练练习1\practice.cpp(188): warning C4244: “=”: 从“double”转换到“int”，可能丢失数据
+f:\c++代码\技术教练练习1\技术教练练习1\practice.cpp(196): warning C4244: “=”: 从“double”转换到“int”，可能丢失数据
   技术教练练习1.vcxproj -> F:\C++代码\技术教练练习1\Debug\技术教练练习1.exe

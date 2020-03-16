@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 #include <stack>
+#include <math.h>
 using namespace std;
 
 class Calculate {
@@ -105,8 +106,9 @@ public:
 				Expression = Expression.substr(1);
 			}
 
-
-			cout << Expression<<"="<< myCalculate.calculate(Expression)<< endl;
+			cout << Expression << endl;
+			v_out_string.push_back(Expression);
+			//cout << Expression<<"="<< myCalculate.calculate(Expression)<< endl;
 			return;
 		}
 		//counter = counter + 1;
@@ -120,7 +122,7 @@ public:
 	void DFS(vector<int>& nums, int digit,int counter, string Expression)
 	{
 		DFS(nums, digit, counter + 1, Expression,"+");
-		DFS(nums, digit, counter + 1, Expression,"-");
+		//DFS(nums, digit, counter + 1, Expression,"-");
 		//DFS(nums, digit, counter + 1, Expression,"*");
 		//DFS(nums, digit, counter + 1, Expression,"/");
 	}
@@ -135,6 +137,7 @@ public:
 		return count;
 	}
 
+	vector<string>v_out_string;
 };
 
 void test1()
@@ -142,22 +145,68 @@ void test1()
     vector<int>nums;
 	nums.clear();
 
+
 	int digit = 7;
 
-	for (int i = 0; i < 4; ++i)
+	for (int i = 0; i < 6; ++i)
 	{
 		nums.push_back(digit);
 	}
 
 	Solution mySolution;
+	mySolution.v_out_string.clear();
 	mySolution.findTargetSumWays(nums);
+
+	Calculate myCalculate;
+
+	for (int i = 0; i < mySolution.v_out_string.size(); ++i)
+	{
+		cout << mySolution.v_out_string[i] << "=" << myCalculate.calculate(mySolution.v_out_string[i]) << endl;
+	}
 }
+
+void splitdigit(int i, int v)
+{
+	int temp = v;
+
+	if (0 == i)
+	{
+		return;
+	}
+
+	while (temp>0)
+	{
+		int j = (-1);
+		while (pow(i, j+1) < temp)
+		{
+			j++;
+		}
+
+		int an = 1;
+		if (j > 0)
+		{
+			an = temp / pow(i, j);
+		}
+		else
+		{
+			an = 1;
+		}
+
+		cout << "temp=" << temp << " an=" << an << " pow(i, j)=" << pow(i, j) << " j=" << j << endl;
+		temp = temp - an * pow(i, j);
+		//cout <<"After temp=" << temp << " an=" << an << " pow(i, j)=" << pow(i, j) << " j=" << j << endl;
+	}
+	return ;
+}
+
 
 int main()
 {
-	test1();
+	//test1();
 	cout <<"============================================================\n" << endl;
-	Calculate myCalculate;
-	cout << "7/7*7" << "=" << myCalculate.calculate("7/7*7") << endl;
+	//Calculate myCalculate;
+	//cout << "7/7/7/7/7" << "=" << myCalculate.calculate("7/7/7/7/7") << endl;
+
+	splitdigit(7, 100);
 	return 0;
 }
