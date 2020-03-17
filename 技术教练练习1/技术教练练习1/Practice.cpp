@@ -199,6 +199,22 @@ void splitdigit(int i, int v)
 	return ;
 }
 
+void test2()
+{
+	char mmlInfo[16*1024]="112334";
+	char info[] = "asfsf";
+	char c_flag[] = "&";
+	int mmlInfoLen = strlen(mmlInfo);
+
+	snprintf(&(mmlInfo[mmlInfoLen]), strlen(info)+1, "%s", info);
+
+	cout << "1:" << mmlInfo << endl;
+
+	int mmlInfoLen2 = strlen(mmlInfo);
+
+	snprintf(&(mmlInfo[mmlInfoLen2]), strlen(c_flag)+1, "%s", c_flag);
+	cout << "2:" << mmlInfo << endl;
+}
 
 int main()
 {
@@ -206,7 +222,7 @@ int main()
 	cout <<"============================================================\n" << endl;
 	//Calculate myCalculate;
 	//cout << "7/7/7/7/7" << "=" << myCalculate.calculate("7/7/7/7/7") << endl;
-
-	splitdigit(7, 100);
+	test2();
+	//splitdigit(7, 100);
 	return 0;
 }
