@@ -216,6 +216,15 @@ void test2()
 	cout << "2:" << mmlInfo << endl;
 }
 
+void test3(char mmlInfo2[])
+{
+	char mmlInfo[16 * 1024] = "112334";
+	char info[] = "asfsf";
+	char c_flag[] = "&";
+
+	cout << "1:" << sizeof(mmlInfo2) << endl;
+}
+
 int main()
 {
 	//test1();
@@ -223,6 +232,8 @@ int main()
 	//Calculate myCalculate;
 	//cout << "7/7/7/7/7" << "=" << myCalculate.calculate("7/7/7/7/7") << endl;
 	test2();
+	char mmlInfo2[] = "12414";
+	test3(mmlInfo2);
 	//splitdigit(7, 100);
 	return 0;
 }
