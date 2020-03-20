@@ -206,13 +206,13 @@ void test2()
 	char c_flag[] = "&";
 	int mmlInfoLen = strlen(mmlInfo);
 
-	snprintf(&(mmlInfo[mmlInfoLen]), strlen(info)+1, "%s", info);
+	snprintf(&(mmlInfo[mmlInfoLen]), strlen(info), "%s", info);
 
 	cout << "1:" << mmlInfo << endl;
 
 	int mmlInfoLen2 = strlen(mmlInfo);
 
-	snprintf(&(mmlInfo[mmlInfoLen2]), strlen(c_flag)+1, "%s", c_flag);
+	snprintf(&(mmlInfo[strlen(mmlInfo)]), strlen(c_flag)+1, "%s", c_flag);
 	cout << "2:" << mmlInfo << endl;
 }
 
@@ -233,7 +233,7 @@ int main()
 	//cout << "7/7/7/7/7" << "=" << myCalculate.calculate("7/7/7/7/7") << endl;
 	test2();
 	char mmlInfo2[] = "12414";
-	test3(mmlInfo2);
+	//test3(mmlInfo2);
 	//splitdigit(7, 100);
 	return 0;
 }
