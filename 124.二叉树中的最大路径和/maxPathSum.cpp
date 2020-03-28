@@ -9,33 +9,28 @@
  */
 class Solution {
 public:
-    int maxPathSum(TreeNode* root) {
-        
-    }
+    int max_sum = INT_MIN;
 
-    int pathSum(TreeNode* root, int sum) {
-        if (root==NULL) return 0;
-        return DFS(root,sum);
-        
-    }
-
-    int solve(TreeNode* curr, int target)
+    int max_gain(TreeNode * node) 
     {
-        int ans=0;
-        if(curr==NULL) return 0;
-        if(curr->val == target) ans++;
-        ans+=solve(curr->left, target-curr->val);
-        ans+=solve(curr->right,target-curr->val);
-        return ans;
-    }
+        if (node == NULL) 
+        {
+            return 0;
+        }
 
-    int DFS(TreeNode* curr, int target)
+        int left_gain = max(max_gain(node->left), 0);
+        int right_gain = max(max_gain(node->right), 0);
+
+        int price_newpath = node->val + left_gain + right_gain;
+
+        max_sum = max(max_sum, price_newpath);
+
+        return node->val + max(left_gain, right_gain);
+  }
+
+    int maxPathSum(TreeNode * node)
     {
-        int ans=0;
-        if(curr==NULL) return 0;
-        ans+= solve(curr,target);
-        ans+=DFS(curr->left,target);
-        ans+=DFS(curr->right,target);
-        return ans;
+        max_gain(node);
+        return max_sum;
     }
 };
