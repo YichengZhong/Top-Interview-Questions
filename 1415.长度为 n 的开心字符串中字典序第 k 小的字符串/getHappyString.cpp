@@ -25,15 +25,16 @@ public:
 
     void compute(string& tmp, vector<char>& candidates, vector<string>& ans,int len) 
     {        
-        int n = candidates.size();        
+        int n = candidates.size();  
+
+        if(tmp.size()==len)
+        {
+            ans.push_back(tmp);
+            return ;
+        }
+
         for(int i = 0; i < n; i ++)
         {            
-            if(tmp.size()==len)
-            {
-                ans.push_back(tmp);
-                return ;
-            }
-
             if(tmp.size() == 0)
             {
                 tmp+=candidates[i];
