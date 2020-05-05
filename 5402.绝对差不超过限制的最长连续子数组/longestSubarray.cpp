@@ -1,51 +1,19 @@
 class Solution {
 public:
     int longestSubarray(vector<int>& nums, int limit) {
-        if (nums.size() == 0)
-            return 0;
-        unordered_set<int> lookup;
-        int maxlen = 0;
-        int left = 0;
-        int max = 0;
-        for (int i = 0; i < nums.size(); i++)
+        multiset<int> s;
+        int ans = 0;
+        int i = 0;
+        for (int j = 0; j < nums.size(); j++) 
         {
-            while (lookup.size()>0 && (abs(getMin(lookup) - nums[i]) > limit || abs(getMax(lookup) - nums[i]) > limit))
+            s.insert(nums[j]);
+            while (*s.rbegin() - *s.begin() > limit)
             {
-                lookup.erase(nums[left]);
-                left++;
+                s.erase(s.find(nums[i]));
+                i++;
             }
-            if (lookup.size() > 0 && maxlen < (i - left + 1))
-            {
-                maxlen = i - left + 1;
-            }
-            lookup.insert(nums[i]);
+            ans = max(ans, j - i + 1);
         }
-        return maxlen;
-    }
-
-    int getMin(unordered_set<int> lookup)
-    {
-        int min = *lookup.begin();
-        for (unordered_set<int>::iterator it = lookup.begin(); it != lookup.end(); ++it)
-        {
-            if (min > (*it))
-            {
-                min = (*it);
-            }
-        }
-        return min;
-    }
-
-    int getMax(unordered_set<int> lookup)
-    {
-        int max = *lookup.begin();
-        for (unordered_set<int>::iterator it = lookup.begin(); it != lookup.end(); ++it)
-        {
-            if (max < (*it))
-            {
-                max = (*it);
-            }
-        }
-        return max;
+        return ans;
     }
 };
