@@ -8,6 +8,8 @@
 #include <sstream>
 #include "cJSON.h"
 
+int MS = 0;
+
 class DealStrongPassword 
 {
 public:
@@ -101,6 +103,33 @@ class ReadJson
 public:
 
 };
+
+void readJson()
+{
+	char str1[] = "{\"name\":\"Andy\",\"age\":20}";
+	cJSON *str1_json, *str1_name, *str1_age;
+	printf("str1:%s\n\n", str1);
+	str1_json = cJSON_Parse(str1);   //创建JSON解析对象，返回JSON格式是否正确
+	if (!str1_json)
+	{
+		printf("JSON格式错误:%s\n\n", cJSON_GetErrorPtr()); //输出json格式错误信息
+	}
+	else
+	{
+		printf("JSON格式正确:\n%s\n\n", cJSON_Print(str1_json));
+		str1_name = cJSON_GetObjectItem(str1_json, "name"); //获取name键对应的值的信息
+		if (str1_name->type == cJSON_String)
+		{
+			printf("姓名:%s\r\n", str1_name->valuestring);
+		}
+		str1_age = cJSON_GetObjectItem(str1_json, "age");   //获取age键对应的值的信息
+		if (str1_age->type == cJSON_Number)
+		{
+			printf("年龄:%d\r\n", str1_age->valueint);
+		}
+		cJSON_Delete(str1_json);//释放内存
+	}
+}
 
 class StrongPasswordSocre
 {
@@ -234,5 +263,6 @@ void test1()
 int main()
 {
 	test1();
+	readJson();
 	return 0;
 }
