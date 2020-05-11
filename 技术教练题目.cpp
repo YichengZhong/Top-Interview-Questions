@@ -8,7 +8,77 @@
 #include <sstream>
 #include "cJSON.h"
 
-int MS = 0;
+int MS=0;
+
+class StrongPasswordSocre
+{
+public:
+	StrongPasswordSocre(std::string Password, int ConsumptionSocre, int GainSocre, int NetSocre)
+	{
+		m_Password = Password;
+		m_ConsumptionSocre = ConsumptionSocre;
+		m_GainSocre = GainSocre;
+		m_NetSocre = NetSocre;
+	}
+
+	void setConsumptionSocre(int ConsumptionSocre)
+	{
+		m_ConsumptionSocre = ConsumptionSocre;
+	}
+
+	void setGainSocre(int GainSocre)
+	{
+		m_GainSocre = GainSocre;
+	}
+
+	void setNetSocre(int NetSocre)
+	{
+		m_NetSocre = NetSocre;
+	}
+
+	int getConsumptionSocre()
+	{
+		return m_ConsumptionSocre;
+	}
+
+	int getGainSocre()
+	{
+		return m_GainSocre;
+	}
+
+	int getNetSocre()
+	{
+		return m_NetSocre;
+	}
+
+	std::string getPassword()
+	{
+		return m_Password;
+	}
+
+	static bool selfcmp(StrongPasswordSocre a, StrongPasswordSocre b)
+	{
+		if (a.getNetSocre() > b.getNetSocre())
+		{
+			return true;
+		}
+		else if (a.getNetSocre() < b.getNetSocre())
+		{
+			return false;
+		}
+		else
+		{
+			return a.getConsumptionSocre() < b.getConsumptionSocre();
+		}
+	}
+
+private:
+	std::string m_Password;
+	int m_ConsumptionSocre; //消耗积分
+	int m_GainSocre; //赚取积分
+	int m_NetSocre; //净积分
+};
+
 
 class DealStrongPassword 
 {
@@ -98,107 +168,141 @@ public:
 	}
 };
 
+//例子：{\"P\":[\"123456\",\"abcdEF\"],\"C\":[3,2],\"N\":2,\"MS\":1}
+
 class ReadJson
 {
 public:
-
-};
-
-void readJson()
-{
-	char str1[] = "{\"name\":\"Andy\",\"age\":20}";
-	cJSON *str1_json, *str1_name, *str1_age;
-	printf("str1:%s\n\n", str1);
-	str1_json = cJSON_Parse(str1);   //创建JSON解析对象，返回JSON格式是否正确
-	if (!str1_json)
+	ReadJson(char str_json[])
 	{
-		printf("JSON格式错误:%s\n\n", cJSON_GetErrorPtr()); //输出json格式错误信息
-	}
-	else
-	{
-		printf("JSON格式正确:\n%s\n\n", cJSON_Print(str1_json));
-		str1_name = cJSON_GetObjectItem(str1_json, "name"); //获取name键对应的值的信息
-		if (str1_name->type == cJSON_String)
+		v_StrongPasswordSocre.clear();
+		PasswordNums=0;
+		PasswordMS=0;
+
+		if (NULL == str_json)
 		{
-			printf("姓名:%s\r\n", str1_name->valuestring);
-		}
-		str1_age = cJSON_GetObjectItem(str1_json, "age");   //获取age键对应的值的信息
-		if (str1_age->type == cJSON_Number)
-		{
-			printf("年龄:%d\r\n", str1_age->valueint);
-		}
-		cJSON_Delete(str1_json);//释放内存
-	}
-}
-
-class StrongPasswordSocre
-{
-public:
-	StrongPasswordSocre(std::string Password, int ConsumptionSocre, int GainSocre, int NetSocre)
-	{
-		m_Password = Password;
-		m_ConsumptionSocre = ConsumptionSocre;
-		m_GainSocre = GainSocre;
-		m_NetSocre = NetSocre;
-	}
-
-	void setConsumptionSocre(int ConsumptionSocre)
-	{
-		m_ConsumptionSocre = ConsumptionSocre;
-	}
-
-	void setGainSocre(int GainSocre)
-	{
-		m_GainSocre = GainSocre;
-	}
-
-	void setNetSocre(int NetSocre)
-	{
-		m_NetSocre = NetSocre;
-	}
-
-	int getConsumptionSocre()
-	{
-		return m_ConsumptionSocre;
-	}
-
-	int getGainSocre()
-	{
-		return m_GainSocre;
-	}
-
-	int getNetSocre()
-	{
-		return m_NetSocre;
-	}
-
-	std::string getPassword()
-	{
-		return m_Password;
-	}
-
-	static bool selfcmp(StrongPasswordSocre a, StrongPasswordSocre b)
-	{
-		if (a.getNetSocre() > b.getNetSocre())
-		{
-			return true;
-		}
-		else if (a.getNetSocre() < b.getNetSocre())
-		{
-			return false;
+			Password_json=NULL;
 		}
 		else
 		{
-			return a.getConsumptionSocre() < b.getConsumptionSocre();
+			Password_json = cJSON_Parse(str_json);   //创建JSON解析对象，返回JSON格式是否正确
+		}		
+	}
+
+	~ReadJson()
+	{
+		if (Password_json != NULL)
+		{
+			cJSON_Delete(Password_json);//释放内存
 		}
 	}
 
+	void getPasswordInfo()
+	{
+		std::vector<std::string>v_Password;
+		std::vector<int>v_PasswordSocre;
+
+		v_Password.clear();
+		v_PasswordSocre.clear();
+
+		getPasswordList(v_Password);
+		getPasswordSocreList(v_PasswordSocre);
+
+		if (v_Password.size() != v_PasswordSocre.size())
+		{
+			return;
+		}
+
+		DealStrongPassword myDealStrongPassword;
+		for (int i = 0; i < v_Password.size(); ++i)
+		{
+			StrongPasswordSocre temp(v_Password[i], 0, v_PasswordSocre[i], 0);
+			temp.setConsumptionSocre(myDealStrongPassword.strongPasswordChecker(temp.getPassword()));
+			int net = temp.getGainSocre() - temp.getConsumptionSocre();
+			temp.setNetSocre(net);
+			v_StrongPasswordSocre.push_back(temp);
+		}		
+
+		cJSON *str_PasswordNums = cJSON_GetObjectItem(Password_json, "N");   //获取N键对应的值的信息
+		if (str_PasswordNums->type == cJSON_Number)
+		{
+			PasswordNums = str_PasswordNums->valueint;
+		}
+
+		cJSON *str_PasswordMS = cJSON_GetObjectItem(Password_json, "MS");   //获取MS键对应的值的信息
+		if (str_PasswordMS->type == cJSON_Number)
+		{
+			PasswordMS = str_PasswordMS->valueint;
+		}
+	}
+
+	void getPasswordList(std::vector<std::string>&v_Password)
+	{
+		cJSON *str_PasswordList = cJSON_GetObjectItem(Password_json, "P"); //获取P键对应的值的信息
+
+		if (str_PasswordList != NULL)
+		{
+			int  array_size = cJSON_GetArraySize(str_PasswordList);
+
+			for (int iCnt = 0; iCnt < array_size; iCnt++)
+			{
+				cJSON * pSub = cJSON_GetArrayItem(str_PasswordList, iCnt);
+				if (NULL == pSub)
+				{
+					continue;
+				}
+
+				char * ivalue = pSub->valuestring;
+				v_Password.push_back(ivalue);
+				printf("str_PasswordList[%d] : %s\n", iCnt, ivalue);
+			}
+		}
+	}
+
+	void getPasswordSocreList(std::vector<int>&v_PasswordSocre)
+	{
+		cJSON *str_PasswordSocreList = cJSON_GetObjectItem(Password_json, "C"); //获取C键对应的值的信息
+		if (str_PasswordSocreList != NULL)
+		{
+			int  array_size = cJSON_GetArraySize(str_PasswordSocreList);
+
+			for (int iCnt = 0; iCnt < array_size; iCnt++)
+			{
+				cJSON * pSub = cJSON_GetArrayItem(str_PasswordSocreList, iCnt);
+				if (NULL == pSub)
+				{
+					continue;
+				}
+
+				int  ivalue = pSub->valueint;
+				v_PasswordSocre.push_back(ivalue);
+				printf("str_PasswordSocreList[%d] : %d\n", iCnt, ivalue);
+			}
+		}
+	}
+
+	std::vector<StrongPasswordSocre> getStrongPasswordList()
+	{
+		return v_StrongPasswordSocre;
+	}
+
+	int getPasswordNums()
+	{
+		return PasswordNums;
+	}
+
+	int getPasswordMS()
+	{
+		return PasswordMS;
+	}
+
 private:
-	std::string m_Password;
-	int m_ConsumptionSocre; //消耗积分
-	int m_GainSocre; //赚取积分
-	int m_NetSocre; //净积分
+	std::vector<StrongPasswordSocre>v_StrongPasswordSocre;
+	int PasswordNums;
+	int PasswordMS;
+	cJSON *Password_json;
 };
+
 
 //计算最终结果
 void CalculateMS(std::vector<StrongPasswordSocre>v_StrongPasswordSocreVector,int PasswordNums,int PasswordMS)
@@ -206,6 +310,7 @@ void CalculateMS(std::vector<StrongPasswordSocre>v_StrongPasswordSocreVector,int
 	if (v_StrongPasswordSocreVector.size() == 0)
 	{
 		std::cout << PasswordMS << "-" << 0 << std::endl;
+		return;
 	}
 
 	std::sort(v_StrongPasswordSocreVector.begin(), v_StrongPasswordSocreVector.end(), StrongPasswordSocre::selfcmp);
@@ -260,9 +365,24 @@ void test1()
 	CalculateMS(v_StrongPasswordSocreVector, 2, 1);
 }
 
+void test2()
+{
+	char str_json[] = "{\"P\":[\"123456\",\"abcdEF\"],\"C\":[3,2],\"N\":2,\"MS\":1}";
+	ReadJson myReadJson(str_json);
+	myReadJson.getPasswordInfo();
+
+	std::vector<StrongPasswordSocre>v_StrongPasswordSocreVector;
+	v_StrongPasswordSocreVector.clear();
+	v_StrongPasswordSocreVector = myReadJson.getStrongPasswordList();
+	int PasswordNums= myReadJson.getPasswordNums();
+	int PasswordMS = myReadJson.getPasswordMS();
+
+	CalculateMS(v_StrongPasswordSocreVector, PasswordNums, PasswordMS);
+}
+
 int main()
 {
-	test1();
-	readJson();
+	//test1();
+	test2();
 	return 0;
 }
