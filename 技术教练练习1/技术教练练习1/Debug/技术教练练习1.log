@@ -1,8 +1,18 @@
-﻿  Practice.cpp
-f:\c++代码\技术教练练习1\技术教练练习1\practice.cpp(13): warning C4018: “<”: 有符号/无符号不匹配
-f:\c++代码\技术教练练习1\技术教练练习1\practice.cpp(20): warning C4018: “<”: 有符号/无符号不匹配
-f:\c++代码\技术教练练习1\技术教练练习1\practice.cpp(102): warning C4101: “myCalculate”: 未引用的局部变量
-f:\c++代码\技术教练练习1\技术教练练习1\practice.cpp(162): warning C4018: “<”: 有符号/无符号不匹配
-f:\c++代码\技术教练练习1\技术教练练习1\practice.cpp(188): warning C4244: “=”: 从“double”转换到“int”，可能丢失数据
-f:\c++代码\技术教练练习1\技术教练练习1\practice.cpp(196): warning C4244: “=”: 从“double”转换到“int”，可能丢失数据
+﻿  cJSON.c
+  Practice.cpp
+f:\c++代码\技术教练练习1\技术教练练习1\practice.cpp(17): warning C4018: “<”: 有符号/无符号不匹配
+f:\c++代码\技术教练练习1\技术教练练习1\practice.cpp(24): warning C4018: “<”: 有符号/无符号不匹配
+f:\c++代码\技术教练练习1\技术教练练习1\practice.cpp(106): warning C4101: “myCalculate”: 未引用的局部变量
+f:\c++代码\技术教练练习1\技术教练练习1\practice.cpp(168): warning C4244: “=”: 从“double”转换到“int”，可能丢失数据
+f:\c++代码\技术教练练习1\技术教练练习1\practice.cpp(176): warning C4244: “=”: 从“double”转换到“int”，可能丢失数据
+f:\c++代码\技术教练练习1\技术教练练习1\practice.cpp(238): warning C4018: “<”: 有符号/无符号不匹配
+f:\c++代码\技术教练练习1\技术教练练习1\practice.cpp(251): warning C4018: “<”: 有符号/无符号不匹配
+  main.cpp
+f:\c++代码\技术教练练习1\技术教练练习1\main.cpp(25): warning C4018: “<”: 有符号/无符号不匹配
+  ReadJson.cpp
+f:\c++代码\技术教练练习1\技术教练练习1\readjson.cpp(44): warning C4018: “<”: 有符号/无符号不匹配
+  StrongPasswordSocre.cpp
+  正在生成代码...
+    正在创建库 F:\C++代码\技术教练练习1\Debug\技术教练练习1.lib 和对象 F:\C++代码\技术教练练习1\Debug\技术教练练习1.exp
+LINK : warning LNK4232: 名称 技术教练练习1.exe 包含非 ASCII 字符，在具有除 936 以外的 ANSI 代码页的系统上可能不能加载 DLL
   技术教练练习1.vcxproj -> F:\C++代码\技术教练练习1\Debug\技术教练练习1.exe

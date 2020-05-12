@@ -3,6 +3,10 @@
 #include <string>
 #include <stack>
 #include <math.h>
+#include <algorithm>
+#include <unordered_set>
+#include <vector>
+#include "cJSON.h"
 using namespace std;
 
 class Calculate {
@@ -93,7 +97,7 @@ public:
 };
 
 
-class Solution {
+class Solution3 {
 public:
 	void DFS(vector<int>& nums, int digit,int counter,string Expression,string sign)
 	{
@@ -140,30 +144,6 @@ public:
 	vector<string>v_out_string;
 };
 
-void test1()
-{
-    vector<int>nums;
-	nums.clear();
-
-
-	int digit = 7;
-
-	for (int i = 0; i < 6; ++i)
-	{
-		nums.push_back(digit);
-	}
-
-	Solution mySolution;
-	mySolution.v_out_string.clear();
-	mySolution.findTargetSumWays(nums);
-
-	Calculate myCalculate;
-
-	for (int i = 0; i < mySolution.v_out_string.size(); ++i)
-	{
-		cout << mySolution.v_out_string[i] << "=" << myCalculate.calculate(mySolution.v_out_string[i]) << endl;
-	}
-}
 
 void splitdigit(int i, int v)
 {
@@ -199,14 +179,14 @@ void splitdigit(int i, int v)
 	return ;
 }
 
-void test2()
+void test12()
 {
 	char mmlInfo[16*1024]="112334";
 	char info[] = "asfsf";
 	char c_flag[] = "&";
 	int mmlInfoLen = strlen(mmlInfo);
 
-	snprintf(&(mmlInfo[mmlInfoLen]), strlen(info), "%s", info);
+	snprintf(&(mmlInfo[strlen(mmlInfo)]), strlen(info), "%s", info);
 
 	cout << "1:" << mmlInfo << endl;
 
@@ -214,6 +194,12 @@ void test2()
 
 	snprintf(&(mmlInfo[strlen(mmlInfo)]), strlen(c_flag)+1, "%s", c_flag);
 	cout << "2:" << mmlInfo << endl;
+	snprintf(&(mmlInfo[strlen(mmlInfo)]), strlen(info), "%s", info);
+	snprintf(&(mmlInfo[strlen(mmlInfo)]), strlen(c_flag) + 1, "%s", c_flag);
+	cout << "3:" << mmlInfo << endl;
+	snprintf(&(mmlInfo[strlen(mmlInfo)]), strlen(info), "%s", info);
+	snprintf(&(mmlInfo[strlen(mmlInfo)]), strlen(c_flag) + 1, "%s", c_flag);
+	cout << "4:" << mmlInfo << endl;
 }
 
 void test3(char mmlInfo2[])
@@ -225,15 +211,126 @@ void test3(char mmlInfo2[])
 	cout << "1:" << sizeof(mmlInfo2) << endl;
 }
 
-int main()
+
+
+
+class Solution2 {
+public:
+    bool compare(string a, string b)
+	{
+		if (atoll((a + b).c_str()) > atoll((b + a).c_str()))
+		{
+			return true;
+		}
+
+		return false;
+	}
+
+	string largestNumber(vector<int>& nums) {
+		vector<string>str_nums;
+		str_nums.clear();
+
+		if (0 == nums.size())
+		{
+			return "";
+		}
+
+		for (int i = 0; i < nums.size(); ++i)
+		{
+			str_nums.push_back(to_string(nums[i]));
+
+			compare("11", "22");
+		}
+
+		sort(str_nums.begin(), str_nums.end());
+
+		//reverse(str_nums.begin(),str_nums.end());
+
+		string str_out = "";
+
+		for (int i = 0; i < str_nums.size(); ++i)
+		{
+			str_out = str_out + str_nums[i];
+		}
+
+		if (atoll(str_out.c_str()) == 0)
+		{
+			return "0";
+		}
+
+		return str_out;
+
+	}
+};
+
+#define VALUE_MAX (unsigned int)200
+
+class Solution {
+public:
+	static int getF(int x)
+	{
+		if (x == 1)
+		{
+			return 0;
+		}
+
+		if (x & 1)
+		{
+			return getF(x * 3 + 1) + 1;
+		}
+		else
+		{
+			return getF(x / 2) + 1;
+		}
+	}
+
+	static bool selfcmp(int a, int b)
+	{
+		if (getF(a) > getF(b))
+		{
+			return false;
+		}
+		else if (getF(a) < getF(b))
+		{
+			return true;
+		}
+		else
+		{
+			return a < b;
+		}
+	}
+
+	int getKth(int lo, int hi, int k) {
+		vector<int> nums;
+		nums.clear();
+
+		for (int i = lo; i <= hi; ++i)
+		{
+			nums.push_back(i);
+		}
+
+		sort(nums.begin(), nums.end(), selfcmp);
+
+		return nums[k - 1];
+
+	}
+};
+int abc()
 {
 	//test1();
 	cout <<"============================================================\n" << endl;
 	//Calculate myCalculate;
 	//cout << "7/7/7/7/7" << "=" << myCalculate.calculate("7/7/7/7/7") << endl;
-	test2();
+	//test2();
 	char mmlInfo2[] = "12414";
 	//test3(mmlInfo2);
 	//splitdigit(7, 100);
+
+	Solution mySolution;
+	vector<int>cardPoints = {4,2,2,2,4,4,2,2};
+	int out = 0;
+	out=mySolution.getKth(12, 15,  2);
+	cout << out << endl;
+
 	return 0;
 }

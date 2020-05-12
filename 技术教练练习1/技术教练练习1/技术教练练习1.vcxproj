@@ -115,7 +115,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="cJSON.c" />
     <ClCompile Include="Practice.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="ReadJson.cpp" />
+    <ClCompile Include="StrongPasswordSocre.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="cJSON.h" />
+    <ClInclude Include="DealStrongPassword.h" />
+    <ClInclude Include="ReadJson.h" />
+    <ClInclude Include="StrongPasswordSocre.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
