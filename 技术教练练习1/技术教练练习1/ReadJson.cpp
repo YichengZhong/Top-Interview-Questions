@@ -1,6 +1,6 @@
 #include "ReadJson.h"
 
-ReadJson::ReadJson(char str_json[])
+ReadJson::ReadJson(const char str_json[])
 {
 	v_StrongPasswordSocre.clear();
 	PasswordNums = 0;
@@ -35,8 +35,9 @@ void ReadJson::getPasswordInfo()
 	getPasswordList(v_Password);
 	getPasswordSocreList(v_PasswordSocre);
 
-	if (v_Password.size() != v_PasswordSocre.size())
+	if (v_Password.size() != v_PasswordSocre.size() || Password_json==NULL)
 	{
+		std::cout << "json格式异常" << std::endl;
 		return;
 	}
 
@@ -84,6 +85,10 @@ void ReadJson::getPasswordList(std::vector<std::string>&v_Password)
 			printf("str_PasswordList[%d] : %s\n", iCnt, ivalue);
 		}
 	}
+	else
+	{
+		std::cout << "json格式异常" << std::endl;
+	}
 }
 
 void ReadJson::getPasswordSocreList(std::vector<int>&v_PasswordSocre)
@@ -105,6 +110,10 @@ void ReadJson::getPasswordSocreList(std::vector<int>&v_PasswordSocre)
 			v_PasswordSocre.push_back(ivalue);
 			printf("str_PasswordSocreList[%d] : %d\n", iCnt, ivalue);
 		}
+	}
+	else
+	{
+		std::cout << "json格式异常" << std::endl;
 	}
 }
 

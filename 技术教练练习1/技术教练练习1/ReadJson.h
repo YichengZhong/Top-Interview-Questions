@@ -3,12 +3,13 @@
 #include "StrongPasswordSocre.h"
 #include "DealStrongPassword.h"
 #include <vector>
+#include <iostream>
 
 //Р§згЃК{\"P\":[\"123456\",\"abcdEF\"],\"C\":[3,2],\"N\":2,\"MS\":1}
 class ReadJson
 {
 public:
-	ReadJson(char str_json[]);
+	ReadJson(const char str_json[]);
 
 	~ReadJson();
 

@@ -7,6 +7,10 @@
 #include "StrongPasswordSocre.h"
 #include "DealStrongPassword.h"
 #include "ReadJson.h"
+#include "json.hpp"
+#include <fstream>
+#include <sstream>
+using json = nlohmann::json;
 
 //计算最终结果
 void CalculateMS(std::vector<StrongPasswordSocre>v_StrongPasswordSocreVector,int PasswordNums,int PasswordMS)
@@ -22,9 +26,9 @@ void CalculateMS(std::vector<StrongPasswordSocre>v_StrongPasswordSocreVector,int
 	int outPasswordNums = 0, outPasswordMS = PasswordMS;
 
 	int outPasswordCheckNums = 0;
-	for (int i = 0; i < v_StrongPasswordSocreVector.size(); ++i)
+	for (int i = 0; i < std::min((int)v_StrongPasswordSocreVector.size(), PasswordNums); ++i)
 	{
-		if (i < PasswordNums && v_StrongPasswordSocreVector[i].getNetSocre() > 0)
+		if (v_StrongPasswordSocreVector[i].getNetSocre() > 0)
 		{
 			outPasswordMS = outPasswordMS + v_StrongPasswordSocreVector[i].getNetSocre();
 			outPasswordCheckNums++;
@@ -40,7 +44,7 @@ void CalculateMS(std::vector<StrongPasswordSocre>v_StrongPasswordSocreVector,int
 
 void test1()
 {
-	StrongPasswordSocre temp1("123456",0,3,0);
+	StrongPasswordSocre temp1("!@#",0,3,0);
 	StrongPasswordSocre temp2("abcdEF",0,2,0);
 	StrongPasswordSocre temp3("ab1dEF", 0, 2, 0);
 
@@ -71,7 +75,18 @@ void test1()
 
 void test2()
 {
-	char str_json[] = "{\"P\":[\"123456\",\"abcdEF\"],\"C\":[3,2],\"N\":2,\"MS\":1}";
+	std::ifstream InJsonFile("file.json"); //可以读取txt、json等文件
+
+	if (!InJsonFile.is_open())
+	{
+		std::cout << "文件打开失败！" << std::endl;
+	}
+
+	std::string str((std::istreambuf_iterator<char>(InJsonFile)),std::istreambuf_iterator<char>());
+	std::cout << str << std::endl;
+
+	//char str_json[] = "{\"P\":[\"123456\",\"abcdEF\"],\"C\":[3,2],\"N\":2,\"MS\":1}";
+	const char *str_json = str.c_str();
 	ReadJson myReadJson(str_json);
 	myReadJson.getPasswordInfo();
 
@@ -88,5 +103,7 @@ int main()
 {
 	//test1();
 	test2();
+	//test3();
+	//test4();
 	return 0;
 }
