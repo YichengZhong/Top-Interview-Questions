@@ -52,15 +52,25 @@ void ReadJson::getPasswordInfo()
 	}
 
 	cJSON *str_PasswordNums = cJSON_GetObjectItem(Password_json, "N");   //获取N键对应的值的信息
-	if (str_PasswordNums->type == cJSON_Number)
+	if (str_PasswordNums!=NULL && str_PasswordNums->type == cJSON_Number)
 	{
 		PasswordNums = str_PasswordNums->valueint;
 	}
+	else
+	{
+		std::cout << "json格式异常" << std::endl;
+		return;
+	}
 
 	cJSON *str_PasswordMS = cJSON_GetObjectItem(Password_json, "MS");   //获取MS键对应的值的信息
-	if (str_PasswordMS->type == cJSON_Number)
+	if (str_PasswordMS!=NULL && str_PasswordMS->type == cJSON_Number)
 	{
 		PasswordMS = str_PasswordMS->valueint;
+	}
+	else
+	{
+		std::cout << "json格式异常" << std::endl;
+		return;
 	}
 }
 
