@@ -5,7 +5,7 @@
 #include <algorithm>
 #include <vector>
 #include "StrongPasswordSocre.h"
-#include "DealStrongPassword.h"
+#include "StrongPasswordCheck.h"
 #include "ReadJson.h"
 #include "json.hpp"
 #include <fstream>
@@ -48,7 +48,7 @@ void test1()
 	StrongPasswordSocre temp2("abcdEF",0,2,0);
 	StrongPasswordSocre temp3("ab1dEF", 0, 2, 0);
 
-	DealStrongPassword myDealStrongPassword;
+	StrongPasswordCheck myDealStrongPassword;
 	int net = 0;
 
 	temp1.setConsumptionSocre(myDealStrongPassword.strongPasswordChecker(temp1.getPassword()));

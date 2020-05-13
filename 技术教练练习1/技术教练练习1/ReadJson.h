@@ -1,7 +1,7 @@
 #pragma once
 #include "cJSON.h"
 #include "StrongPasswordSocre.h"
-#include "DealStrongPassword.h"
+#include "StrongPasswordCheck.h"
 #include <vector>
 #include <iostream>
 
