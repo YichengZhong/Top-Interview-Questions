@@ -23,7 +23,7 @@ public:
             {
                 return NULL;
             }
-			
+            
             m_find[temp]=temp->val;
             temp=temp->next;
         }

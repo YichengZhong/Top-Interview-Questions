@@ -32,7 +32,7 @@ public:
             }
 
             str_temp = str_temp + to_string(cout) + str_pre[str_pre.size()-1];
-			cout = 1;
+            cout = 1;
             
             str_pre=str_temp;
 

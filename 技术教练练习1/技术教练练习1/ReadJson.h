@@ -9,25 +9,25 @@
 class ReadJson
 {
 public:
-	ReadJson(const char str_json[]);
+    ReadJson(const char str_json[]);
 
-	~ReadJson();
+    ~ReadJson();
 
-	void getPasswordInfo();
-	
-	void getPasswordList(std::vector<std::string>&v_Password);
+    void getPasswordInfo();
+    
+    void getPasswordList(std::vector<std::string>&v_Password);
 
-	void getPasswordSocreList(std::vector<int>&v_PasswordSocre);
+    void getPasswordSocreList(std::vector<int>&v_PasswordSocre);
 
-	std::vector<StrongPasswordSocre> getStrongPasswordList();
+    std::vector<StrongPasswordSocre> getStrongPasswordList();
 
-	int getPasswordNums();
+    int getPasswordNums();
 
-	int getPasswordMS();
+    int getPasswordMS();
 
 private:
-	std::vector<StrongPasswordSocre>v_StrongPasswordSocre;
-	int PasswordNums;
-	int PasswordMS;
-	cJSON *Password_json;
+    std::vector<StrongPasswordSocre>v_StrongPasswordSocre;
+    int PasswordNums;
+    int PasswordMS;
+    cJSON *Password_json;
 };

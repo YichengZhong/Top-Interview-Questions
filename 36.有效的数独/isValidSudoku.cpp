@@ -16,7 +16,7 @@ public:
                 if (rowcount.find(board[i][j]) == rowcount.end())
                 {
                     rowcount[board[i][j]]=1;
-					continue;
+                    continue;
                 }
                 else
                 {
@@ -27,8 +27,8 @@ public:
 
         return true;               
     }
-	
-	bool isValidRank(vector<vector<char>>& board)
+    
+    bool isValidRank(vector<vector<char>>& board)
     {
         map<char, int>rankcount;
 
@@ -40,7 +40,7 @@ public:
                 if (rankcount.find(board[j][i]) == rankcount.end())
                 {
                     rankcount[board[j][i]]=1;
-					continue;
+                    continue;
                 }
                 else
                 {
@@ -51,9 +51,9 @@ public:
 
         return true;               
     }
-	
-	bool isValidBox(vector<vector<char>>& board)
-	{
-		map<char, int>boxcount;
-	}
+    
+    bool isValidBox(vector<vector<char>>& board)
+    {
+        map<char, int>boxcount;
+    }
 };
