@@ -6,12 +6,15 @@ public:
         vector<int>v_temp;
         help(nums,v_temp,0);
 
+        set<vector<int>>s(v_v_out.begin(), v_v_out.end());
+        v_v_out.assign(s.begin(), s.end());
+
         return v_v_out;
     }
 
     void help(vector<int>& nums,vector<int>v_temp,int index)
     {
-        if(v_temp.size()>1 && find(v_v_out.begin(),v_v_out.end(),v_temp)==v_v_out.end())
+        if(v_temp.size()>1)
         {
             v_v_out.push_back(v_temp);
         }
