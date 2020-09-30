@@ -1,6 +1,7 @@
 class Solution {
 public:
-    vector<vector<int>> merge(vector<vector<int>>& intervals) {
+    vector<vector<int>> merge(vector<vector<int>>& intervals) 
+	{
         if (intervals.size() == 0) 
         {
             return {};
@@ -14,7 +15,8 @@ public:
             {
                 merged.push_back({L, R});
             }
-            else {
+            else 
+			{
                 merged.back()[1] = max(merged.back()[1], R);
             }
         }
