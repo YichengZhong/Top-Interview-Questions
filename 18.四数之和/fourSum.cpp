@@ -13,21 +13,13 @@ public:
 
         for(int i=0;i<=nums.size()-4;++i)
         {
-            if(nums[i]>target)
-            {
-                break;
-            }
-
             if(i > 0 && nums[i] == nums[i-1])
             {
                 continue; // 去重
             }
 
             for(int k=i+1;k<=nums.size()-3;++k)
-            {
-                if(k>1 && nums[k]==nums[k-1])
-                    continue;
-
+            {                 
                 int left=k+1;
                 int right=nums.size()-1;
 
@@ -71,6 +63,9 @@ public:
                 
             }
         }
+
+        set<vector<int>>set_out(v_out.begin(),v_out.end());
+        v_out.assign(set_out.begin(), set_out.end());
 
         return v_out;
     }
