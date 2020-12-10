@@ -1,26 +1,49 @@
 class Solution {
 public:
-    vector<int> twoSum(vector<int>& nums, int target)
+    int maxLen;
+    int furthestBuilding(vector<int>& heights, int bricks, int ladders) {
+        maxLen=0;
+
+        helpDFS(heights,bricks,ladders,0);
+
+        return maxLen;
+    }
+
+    void helpDFS(vector<int>& heights, int bricks, int ladders,int index)
     {
-        map<int,int> a;//建立hash表存放数组元素
-        vector<int> b(2,-1);//存放结果
-        for(int i=0;i<nums.size();i++)
+        if(index>=heights.size())
         {
-            pair<int,int>temp(nums[i],i);
-            a.insert(temp);
+            return;
         }
-        
-        for(int i=0;i<nums.size();i++)
+
+        if(maxLen<index)
         {
-            if(a.count(target-nums[i])>0&&(a[target-nums[i]]!=i))
-            //判断是否找到目标元素且目标元素不能是本身
+            maxLen=max(maxLen,index);
+        }
+
+        //不需要辅助
+        if((index+1)<heights.size() && heights[index]>=heights[index+1])
+        {
+            helpDFS(heights,bricks,ladders,index+1);
+        }
+        //需要辅助
+        if( ((index+1)<heights.size()) &&heights[index]<heights[index+1] && (bricks>0 || ladders>0))
+        {
+            //使用砖块
+            if(bricks>=abs(heights[index+1]-heights[index]))
             {
-                b[0]=i;
-                b[1]=a[target-nums[i]];
-                break;
+                helpDFS(heights,bricks-abs(heights[index+1]-heights[index]),ladders,index+1);
+            }
+
+            //使用梯子
+            if(ladders>0)
+            {
+                helpDFS(heights,bricks,ladders-1,index+1);
             }
         }
-        
-        return b;
+        else
+        {
+            return;
+        }
     }
 };
