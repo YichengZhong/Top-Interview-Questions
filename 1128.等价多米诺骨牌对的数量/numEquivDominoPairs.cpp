@@ -1,19 +1,20 @@
 class Solution {
 public:
     int numEquivDominoPairs(vector<vector<int>>& dominoes) {
+        map<vector<int>,int>countmap;
         int count=0;
-        for(int i=0;i<dominoes.size()-1;++i)
+        
+        for(int i=0;i<dominoes.size();++i)
         {
-            for(int j=i+1;j<dominoes.size();++j)
-            {
-                if(((dominoes[i][0]==dominoes[j][0] && dominoes[i][1]==dominoes[j][1])) ||((dominoes[i][0]==dominoes[j][1] && dominoes[i][1]==dominoes[j][0])))
-                {
-                    count++;
-                }
-            }
+            sort(dominoes[i].begin(),dominoes[i].end());
+            countmap[dominoes[i]]++;
         }
-        
+
+        for(auto iter=countmap.begin();iter!=countmap.end();++iter)
+        {
+            if(iter->second>=2)  count=count+(iter->second-1)*(iter->second)/2;
+        }
+
         return count;
-        
     }
 };
