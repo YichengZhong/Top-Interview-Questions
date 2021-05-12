@@ -9,7 +9,7 @@
  */
 class Solution {
 public:
-     bool leafSimilar(TreeNode* root1, TreeNode* root2) 
+     bool leafSimilar(TreeNode* root1, TreeNode* root2)
      {
         vector<int> leaves1;
         vector<int> leaves2;
