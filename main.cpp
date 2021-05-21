@@ -31,7 +31,6 @@ public:
 		}
 
 		return maxSum;
-
 	}
 };
 
@@ -62,29 +61,48 @@ private:
 	std::string __feartures;
 };
 
-unordered_map<char, string> phoneMap{
-			{'0', "0000"},
-			{'1', "0001"},
-			{'2', "0010"},
-			{'3', "0011"},
-			{'4', "0100"},
-			{'5', "0101"},
-			{'6', "0110"},
-			{'7', "0111"},
-			{'8', "1000"},
-			{'9', "1001"},
-			{'A', "1010"},
-			{'B', "1011"},
-			{'C', "1100"},
-			{'D', "1101"},
-			{'E', "1110"},
-			{'F', "1111"},
-			{'a', "1010"},
-			{'b', "1011"},
-			{'c', "1100"},
-			{'d', "1101"},
-			{'e', "1110"},
-			{'f', "1111"},
+unordered_map<char, int> hex_to_num{
+			{'0', 0},
+			{'1', 1},
+			{'2', 2},
+			{'3', 3},
+			{'4', 4},
+			{'5', 5},
+			{'6', 6},
+			{'7', 7},
+			{'8', 8},
+			{'9', 9},
+			{'A', 10},
+			{'B', 11},
+			{'C', 12},
+			{'D', 13},
+			{'E', 14},
+			{'F', 15},
+			{'a', 10},
+			{'b', 11},
+			{'c', 12},
+			{'d', 13},
+			{'e', 14},
+			{'f', 15},
+};
+
+unordered_map<int, char> num_to_hex{
+			{0, '0'},
+			{1, '1'},
+			{2, '2'},
+			{3, '3'},
+			{4, '4'},
+			{5, '5'},
+			{6, '6'},
+			{7, '7'},
+			{8, '8'},
+			{9, '9'},
+			{10, 'A'},
+			{11, 'B'},
+			{12, 'C'},
+			{13, 'D'},
+			{14, 'E'},
+			{15, 'F'},
 };
 
 bool isHex(char chr)
@@ -100,7 +118,7 @@ bool isHex(char chr)
 string string_to_binary(const string &strhex)
 {
 	string temp = "";
-	for (int i = 0; i < strhex.size(); ++i)
+	/*for (int i = 0; i < strhex.size(); ++i)
 	{
 		if (!isHex(strhex[i]))
 		{
@@ -109,15 +127,75 @@ string string_to_binary(const string &strhex)
 		}
 		temp = temp + phoneMap[strhex[i]];
 	}
-	cout << temp << endl;
+	cout << temp << endl;*/
 	return temp;
 }
 
+//https://www.cnblogs.com/ct0421/p/3547629.html
+string &SetFeature(string &strFeatures, size_t index)
+{
+	if (index > 4*strFeatures.size()) return strFeatures;
+
+	size_t index_family = 0;
+	size_t index_in_family = 0;
+	index_family = (index-1) / 4;
+	index_in_family = (index-1) % 4;
+
+	size_t strFeatures_feature_index = hex_to_num[strFeatures[strFeatures.size()-1-index_family]];
+	cout << "strFeatures[strFeatures.size()-1-index_family]=" << strFeatures[strFeatures.size() - 1 - index_family] << endl;
+
+	cout << "strFeatures_feature_index 1:" << strFeatures_feature_index << endl;
+	strFeatures_feature_index |= (1 << index_in_family);
+	cout << "strFeatures_feature_index 2:" << strFeatures_feature_index << endl;
+	strFeatures[strFeatures.size() - 1 - index_family] = num_to_hex[strFeatures_feature_index];
+
+	return strFeatures;
+}
+
+string &ResetFeature(string &strFeatures, size_t index)
+{
+	if (index > 4 * strFeatures.size()) return strFeatures;
+
+	size_t index_family = 0;
+	size_t index_in_family = 0;
+	index_family = (index - 1) / 4;
+	index_in_family = (index - 1) % 4;
+
+	size_t strFeatures_feature_index = hex_to_num[strFeatures[strFeatures.size() - 1 - index_family]];
+	cout << "strFeatures[strFeatures.size()-1-index_family]=" << strFeatures[strFeatures.size() - 1 - index_family] << endl;
+
+	cout << "strFeatures_feature_index 1:" << strFeatures_feature_index << endl;
+	strFeatures_feature_index &= ~(1 << index_in_family);
+	cout << "strFeatures_feature_index 2:" << strFeatures_feature_index << endl;
+	strFeatures[strFeatures.size() - 1 - index_family] = num_to_hex[strFeatures_feature_index];
+
+	return strFeatures;
+}
+
+bool searchFeature(string &strFeatures, size_t index)
+{
+	if (index > 4 * strFeatures.size()) return false;
+	size_t index_family = 0;
+	size_t index_in_family = 0;
+	index_family = (index - 1) / 4;
+	index_in_family = (index - 1) % 4;
+
+	size_t strFeatures_feature_index = hex_to_num[strFeatures[strFeatures.size() - 1 - index_family]];
+
+	if (strFeatures_feature_index >> (index_in_family) & 1)   //判断第index位是否为一
+	{
+		cout <<"第"<<index <<"位为1" << endl;
+		return true;
+
+	}
+	return false;
+}
 
 int main()
 {
 	string str; // string to convert
 	size_t pos; // Hold position of stopping character
+
 	//Convert string to double
 	str = "-342.57is a number";
 	cout << "The string is " << str << endl;
@@ -145,6 +223,58 @@ int main()
 
 	binstr = string_to_binary("80001X00");
 	cout << "binstr=" << binstr << " binstr.size()=" << binstr.size() << endl;
+
+	int a = 8;
+	a |= (1 << 5);
+	cout << "a:" << a << endl;
+
+	cout << "=============================================" << endl;
+
+	string test1 = "80001000";
+	cout << SetFeature(test1, 100) << endl;
+	cout << SetFeature(test1, 1) << endl;
+
+	cout << "=============================================" << endl;
+
+	test1 = "8000100";
+	cout << SetFeature(test1, 100) << endl;
+	cout << SetFeature(test1, 1) << endl;
+
+	cout << "=============================================" << endl;
+
+	test1 = "80001000";
+	cout << SetFeature(test1, 100) << endl;
+	cout << SetFeature(test1, 12) << endl;
+
+	cout << "=============================================" << endl;
+
+	test1 = "80001000";
+	cout << SetFeature(test1, 100) << endl;
+	cout << SetFeature(test1, 21) << endl;
+
+	cout << "=============================================" << endl;
+
+	test1 = "80001000";
+	cout << SetFeature(test1, 100) << endl;
+	cout << SetFeature(test1, 26) << endl;
+
+	cout << "=============================================" << endl;
+
+	test1 = "80001000";
+	cout << ResetFeature(test1, 100) << endl;
+	cout << ResetFeature(test1, 32) << endl;
+
+	cout << "=============================================" << endl;
+
+	test1 = "80001000";
+	cout << searchFeature(test1, 100) << endl;
+	cout << searchFeature(test1, 32) << endl;
+
+	cout << "=============================================" << endl;
+
+	test1 = "80001000";
+	cout << searchFeature(test1, 100) << endl;
+	cout << searchFeature(test1, 12) << endl;
 
 	return 0;
 }
