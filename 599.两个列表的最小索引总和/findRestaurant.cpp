@@ -1,20 +1,70 @@
 class Solution {
 public:
-    vector<string> findRestaurant(vector<string>& list1, vector<string>& list2) {
-        const int n = list1.size(), m = list2.size();
-        unordered_map<string, int> myMap; //记录第一个list的下标
-        vector<string> ans;
-        int minn = n + m + 1;
-        for(int i = 0; i < n; ++i) myMap[list1[i]] = i;  //记录list1的下标
-        for(int i = 0; i < m; ++i){  //遍历list2
-            if(myMap.find(list2[i]) != myMap.end()){ //如果能在myMap里找到
-                if(minn > i + myMap[list2[i]]){  //下标加和比minn小
-                    minn = i + myMap[list2[i]];
-                    ans.clear();             //清空ans
-                    ans.push_back(list2[i]); //放入答案
-                }else if(minn == i + myMap[list2[i]]) ans.push_back(list2[i]);//相等时
+    int maxAreaOfIsland(vector<vector<int>>& grid) {
+        int maxConut=0;
+
+        for(int i=0;i<grid.size();++i)
+        {
+            for(int j=0;j<grid[0].size();++j)
+            {
+                if(grid[i][j]==1)
+                {
+                    int tempcount=GetArea(i,j,grid);
+                    maxConut=max(maxConut,tempcount);
+                }
             }
         }
-        return ans;
+
+        return maxConut;
+    }
+
+    int GetArea(int index_i,int index_j,vector<vector<int>>& grid)
+    {
+        int count=0;
+        queue<vector<int>>node_queue;
+
+        node_queue.push({index_i,index_j});
+
+        while(!node_queue.empty())
+        {
+            int size=node_queue.size();
+
+            for(int i=0;i<size;++i)
+            {
+                vector<int>topnode=node_queue.front();
+                node_queue.pop();
+                int topindex_x=topnode[0];
+                int topindex_y=topnode[1];
+
+                if(grid[topindex_x][topindex_y]==1)
+                {
+                    count++;
+                    grid[topindex_x][topindex_y]=0;
+                }
+
+                //上下左右
+                if(topindex_x-1>=0 && grid[topindex_x-1][topindex_y]==1)
+                {
+                    node_queue.push({topindex_x-1,topindex_y});
+                }
+
+                if(topindex_x+1<grid.size() && grid[topindex_x+1][topindex_y]==1)
+                {
+                    node_queue.push({topindex_x+1,topindex_y});
+                }
+
+                if(topindex_y-1>=0 && grid[topindex_x][topindex_y-1]==1)
+                {
+                    node_queue.push({topindex_x,topindex_y-1});
+                }
+
+                if(topindex_y+1<grid[0].size() && grid[topindex_x][topindex_y+1]==1)
+                {
+                    node_queue.push({topindex_x,topindex_y+1});
+                }
+            }
+        }
+
+        return count;
     }
 };
